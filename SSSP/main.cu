@@ -18,9 +18,17 @@
 #include "../MultipleGPU/PartitionManager.h"
 #include "../MultipleGPU/MultiUtilities.h"
 #include <fstream>
-#include <cutil.h>
+//~ #include <cutil.h>
 #include <cuda_runtime.h>
-#include <cutil_inline_runtime.h>
+//~ #include <cutil_inline_runtime.h>
+
+#include <helper_cuda.h>
+#include <helper_functions.h>
+//~ #include <helper_cuda_gl.h>
+#include <helper_cuda_drvapi.h>
+#include <helper_image.h>
+#include <helper_math.h>
+#include <helper_timer.h>
 
 
 #include "../Tools/ReplicaNumberAnalysis.h"
@@ -32,8 +40,8 @@
 * @param - graph: the input graph
 * @param - dis: distance of each vertex, allocated inside the function
 * @param - root_id: the root vertex id
-* @return	
-* @note	
+* @return
+* @note
 *
 */
 
@@ -246,7 +254,7 @@ int main(int argc, char **argv)
 	srand(528);
 	for(int i = 0; i < MGLOBAL::num_gpu_to_use; i ++)
 	{
-		medusaSetDevice(i);	
+		medusaSetDevice(i);
 
 
 		for(int vertex_index = 0; vertex_index < gp_array[i].graph.vertexNum; vertex_index ++)
@@ -259,7 +267,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 
 
 
@@ -352,7 +360,7 @@ int main(int argc, char **argv)
 		}
 		gt_file.close();
 
-		/* </algorithm specific initialization>  */	
+		/* </algorithm specific initialization>  */
 
 
 		//call this function when all vertex and edge data are ready
@@ -385,11 +393,11 @@ int main(int argc, char **argv)
 
 #ifdef MULTIPLE_RUM
 	}
-#endif	
+#endif
 
 	t = cutGetAverageTimerValue(timer);
 	printf("Medusa step %d\n", MGLOBAL::super_step);
-	printf("Medusa SSSP %.3f ms\n",t); 
+	printf("Medusa SSSP %.3f ms\n",t);
 
 
 
